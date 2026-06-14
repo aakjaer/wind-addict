@@ -121,7 +121,7 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
 
           {/* Left: station name + area */}
           <div className="flex flex-col justify-center">
-            <div className="font-bold leading-tight" style={{ fontSize: "clamp(28px, 5vw, 48px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
+            <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
               {station.name}
             </div>
             <div className="text-xs font-semibold tracking-widest uppercase mt-1" style={{ color: headerMuted }}>

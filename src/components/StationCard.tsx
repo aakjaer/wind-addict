@@ -69,7 +69,7 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
 
         {/* Left: station name + area, vertically centered */}
         <div className="flex flex-col justify-center">
-          <div className="font-bold leading-tight" style={{ fontSize: "clamp(28px, 5vw, 48px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
+          <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
             {station.name}
           </div>
           <div className="text-xs font-semibold tracking-widest uppercase mt-1" style={{ color: mutedColor }}>
@@ -102,7 +102,7 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
                       "font-bold leading-none tabular-nums",
                       flash && "animate-[flashNum_0.6s_ease-out]"
                     )}
-                    style={{ fontSize: "clamp(48px, 10vw, 80px)", color: textColor, fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}
+                    style={{ fontSize: "clamp(36px, 7vw, 64px)", color: textColor, fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}
                   >
                     {ms != null ? ms.toFixed(1) : "–"}
                   </span>
@@ -114,7 +114,8 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
                   </span>
                 )}
               </div>
-              <WindCompass dirDeg={dirDeg} accentColor={textColor} size={44} />
+              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={44} /></span>
+              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={28} /></span>
             </div>
           )}
         </div>
