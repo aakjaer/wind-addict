@@ -1,4 +1,7 @@
-const API_BASE = "/api/dmi/v2/metObs/collections/observation/items";
+const DMI_ORIGIN = import.meta.env.DEV
+  ? "/api/dmi"
+  : "https://opendataapi.dmi.dk";
+const API_BASE = `${DMI_ORIGIN}/v2/metObs/collections/observation/items`;
 
 export interface ObsResult {
   value: number | null;
