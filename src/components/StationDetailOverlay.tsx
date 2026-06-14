@@ -144,7 +144,8 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
                     <span className="text-sm font-mono-nums" style={{ color: headerMuted }}>↑ {currentGust.toFixed(1)}</span>
                   )}
                 </div>
-                <WindCompass dirDeg={currentDir} accentColor={headerText} size={44} />
+                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={44} /></span>
+                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={28} /></span>
               </div>
             )}
           </div>
