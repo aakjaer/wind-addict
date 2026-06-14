@@ -101,8 +101,8 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
         transition: !ready
           ? "none"
           : expanded
-            ? "top 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)"
-            : "top 0.4s cubic-bezier(0.32, 0, 0.67, 0), height 0.4s cubic-bezier(0.32, 0, 0.67, 0)",
+            ? "top 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)"
+            : "top 0.22s cubic-bezier(0.32, 0, 0.67, 0), height 0.22s cubic-bezier(0.32, 0, 0.67, 0)",
       }}
     >
 
@@ -208,8 +208,8 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
                   name === "speed" ? "Wind" : "Gust",
                 ]}
               />
-              <Line dataKey="gust" stroke="#ef4444" strokeWidth={1.5} strokeDasharray="4 3" dot={false} connectNulls name="gust" />
-              <Line dataKey="speed" stroke="url(#beaufortGradient)" strokeWidth={2.5} dot={false} connectNulls name="speed" />
+              <Line dataKey="gust" stroke="#ef4444" strokeWidth={1.5} strokeDasharray="4 3" dot={false} connectNulls name="gust" isAnimationActive={false} />
+              <Line dataKey="speed" stroke="url(#beaufortGradient)" strokeWidth={2.5} dot={false} connectNulls name="speed" isAnimationActive={false} />
             </ComposedChart>
           </ResponsiveContainer>
         )}
