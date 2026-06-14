@@ -95,6 +95,8 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
             </button>
           ) : (
             <div className="flex items-center gap-2">
+              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={44} /></span>
+              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={28} /></span>
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1.5">
                   <span
@@ -109,13 +111,11 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
                   <span className="text-base font-mono-nums font-medium" style={{ color: textColor }}>m/s</span>
                 </div>
                 {gustMs != null && (
-                  <span className="text-sm font-mono-nums" style={{ color: mutedColor }}>
+                  <span className="text-sm font-mono-nums" style={{ color: textColor }}>
                     ↑ {gustMs.toFixed(1)}
                   </span>
                 )}
               </div>
-              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={44} /></span>
-              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={28} /></span>
             </div>
           )}
         </div>

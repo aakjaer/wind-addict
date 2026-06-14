@@ -40,7 +40,7 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
   const bf = beaufortFor(currentSpeed);
   const headerBg = bf.color;
   const headerText = textColorFor(bf.color);
-  const headerMuted = `${headerText}80`;
+  const headerMuted = headerText;
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => { setReady(true); setExpanded(true); });
@@ -133,19 +133,19 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
           <div className="flex items-center gap-4 shrink-0">
             {currentSpeed != null && (
               <div className="flex items-center gap-2">
+                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={44} /></span>
+                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={28} /></span>
                 <div className="flex flex-col">
                   <div className="flex items-baseline gap-1.5">
                     <span className="font-bold leading-none tabular-nums" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
                       {currentSpeed.toFixed(1)}
                     </span>
-                    <span className="text-base font-mono-nums font-medium">m/s</span>
+                    <span className="text-base font-medium">m/s</span>
                   </div>
                   {currentGust != null && (
-                    <span className="text-sm font-mono-nums" style={{ color: headerMuted }}>↑ {currentGust.toFixed(1)}</span>
+                    <span className="text-md" style={{ color: headerMuted }}>↑ {currentGust.toFixed(1)}</span>
                   )}
                 </div>
-                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={44} /></span>
-                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={28} /></span>
               </div>
             )}
           </div>
