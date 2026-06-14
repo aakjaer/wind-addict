@@ -78,7 +78,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Coastal section */}
       <section className="mb-2">
         <div className="border-t border-zinc-800">
           {coastal.map((station) => (

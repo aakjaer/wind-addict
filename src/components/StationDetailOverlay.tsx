@@ -124,7 +124,7 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
             <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
               {station.name}
             </div>
-            <div className="text-xs font-semibold tracking-widest uppercase mt-1" style={{ color: headerMuted }}>
+            <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: headerMuted }}>
               {station.area}
             </div>
           </div>
@@ -135,7 +135,7 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
               <div className="flex items-center gap-2">
                 <div className="flex flex-col">
                   <div className="flex items-baseline gap-1.5">
-                    <span className="font-bold leading-none tabular-nums" style={{ fontSize: "clamp(48px, 10vw, 80px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
+                    <span className="font-bold leading-none tabular-nums" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
                       {currentSpeed.toFixed(1)}
                     </span>
                     <span className="text-base font-mono-nums font-medium">m/s</span>

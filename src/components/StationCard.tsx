@@ -72,7 +72,7 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
           <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
             {station.name}
           </div>
-          <div className="text-xs font-semibold tracking-widest uppercase mt-1" style={{ color: mutedColor }}>
+          <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: mutedColor }}>
             {station.area}
           </div>
         </div>
