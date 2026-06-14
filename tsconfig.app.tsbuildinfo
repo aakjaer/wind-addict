@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/beaufortlegend.tsx","./src/components/stationcard.tsx","./src/components/windcompass.tsx","./src/lib/beaufort.ts","./src/lib/dmi.ts","./src/lib/stations.ts","./src/lib/utils.ts"],"version":"5.9.3"}
