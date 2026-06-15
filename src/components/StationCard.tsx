@@ -78,12 +78,7 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
 
         {/* Right: big speed + unit/gust + compass */}
         <div className="flex items-center gap-4 shrink-0">
-          {showSkeleton ? (
-            <svg width="22" height="22" viewBox="0 0 44 44" fill="none" className="animate-spin">
-              <circle cx="22" cy="22" r="18" stroke="#3f3f46" strokeWidth="2.5" />
-              <path d="M22 4 A18 18 0 0 1 40 22" stroke="#e4e4e7" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          ) : hasError ? (
+          {hasError ? (
             <button
               onClick={(e) => { e.stopPropagation(); onRetry(station.id); }}
               className="flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
@@ -93,9 +88,9 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
               Retry
             </button>
           ) : (
-            <div className={cn(flash && "animate-[flashNum_0.6s_ease-out]")}>
-              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} /></span>
-              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={80} speed={ms} gust={gustMs} /></span>
+            <div className={cn(flash && "animate-[flashNum_0.6s_ease-out]", "transition-transform duration-500 ease-out", showSkeleton ? "scale-25" : "scale-100")}>
+              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
             </div>
           )}
         </div>

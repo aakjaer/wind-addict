@@ -122,8 +122,8 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
           <div className="shrink-0">
             {currentSpeed != null && (
               <>
-                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={100} speed={currentSpeed} gust={currentGust} /></span>
-                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={80} speed={currentSpeed} gust={currentGust} /></span>
+                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={130} speed={currentSpeed} gust={currentGust} /></span>
+                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={100} speed={currentSpeed} gust={currentGust} /></span>
               </>
             )}
           </div>
