@@ -58,8 +58,8 @@ export default function App() {
 
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-3">
-        <h1 className="font-sans font-bold text-sm tracking-widest leading-none">
-          <span className="text-zinc-50">WIND</span><span className="text-zinc-500">ADDICT</span>
+        <h1 className="font-sans font-bold text-sm leading-none">
+          <span className="text-zinc-50">WIND ADDICT</span>
         </h1>
         <div className="flex items-center gap-3">
           {formattedTime && (

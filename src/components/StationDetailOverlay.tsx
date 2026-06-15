@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
 import { WindCompass } from "@/components/WindCompass";
 import {
   ComposedChart,
@@ -107,21 +106,11 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
     >
 
       {/* Header — identical layout to StationCard */}
-      <div className="relative" style={{ background: headerBg, color: headerText }}>
+      <div className="relative cursor-pointer" onClick={handleClose} role="button" aria-label="Close" style={{ background: headerBg, color: headerText }}>
         <div className="relative px-6 py-5 flex items-center justify-between gap-4" style={{ minHeight: "clamp(100px, 20vw, 140px)" }}>
-          {/* Close button where staleness sits */}
-          <button
-            onClick={handleClose}
-            className="absolute top-3 right-6 p-1 transition-opacity hover:opacity-60"
-            style={{ color: headerText }}
-            aria-label="Close"
-          >
-            <X size={16} />
-          </button>
-
           {/* Left: station name + area */}
           <div className="flex flex-col justify-center">
-            <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
+            <div className="font-semi leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
               {station.name}
             </div>
             <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: headerMuted }}>
@@ -129,24 +118,13 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
             </div>
           </div>
 
-          {/* Right: speed + gust + compass */}
-          <div className="flex items-center gap-4 shrink-0">
+          {/* Right: compass with speed + gust in center */}
+          <div className="shrink-0">
             {currentSpeed != null && (
-              <div className="flex items-center gap-2">
-                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={44} /></span>
-                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={28} /></span>
-                <div className="flex flex-col">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="font-bold leading-none tabular-nums" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
-                      {currentSpeed.toFixed(1)}
-                    </span>
-                    <span className="text-base font-medium">m/s</span>
-                  </div>
-                  {currentGust != null && (
-                    <span className="text-md" style={{ color: headerMuted }}>↑ {currentGust.toFixed(1)}</span>
-                  )}
-                </div>
-              </div>
+              <>
+                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={100} speed={currentSpeed} gust={currentGust} /></span>
+                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={80} speed={currentSpeed} gust={currentGust} /></span>
+              </>
             )}
           </div>
         </div>

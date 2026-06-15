@@ -60,20 +60,19 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
       style={{ background: bgColor, color: textColor }}
     >
       <div className="relative px-6 py-5 flex items-center justify-between gap-4" style={{ minHeight: "clamp(100px, 20vw, 140px)" }}>
-        {/* Staleness — absolute top-right */}
-        {!showSkeleton && !hasError && (
-          <span className="absolute top-3 right-6 text-xs font-mono-nums" style={{ color: mutedColor }}>
-            {formatRelativeTime(lastObserved)}
-          </span>
-        )}
-
-        {/* Left: station name + area, vertically centered */}
+        {/* Left: station name + area + staleness, vertically centered */}
         <div className="flex flex-col justify-center">
-          <div className="font-bold leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
+          <div className="font-semi" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal", lineHeight: 0.9 }}>
             {station.name}
           </div>
-          <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: mutedColor }}>
+          <div className="text-xs font-semibold uppercase" style={{ color: mutedColor }}>
             {station.area}
+            {!showSkeleton && !hasError && lastObserved && (
+              <>
+                <span className="px-1">·</span>
+                <span className="font-mono-nums normal-case tracking-normal font-normal">{formatRelativeTime(lastObserved)}</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -94,28 +93,9 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
               Retry
             </button>
           ) : (
-            <div className="flex items-center gap-2">
-              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={44} /></span>
-              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={28} /></span>
-              <div className="flex flex-col">
-                <div className="flex items-baseline gap-1.5">
-                  <span
-                    className={cn(
-                      "font-bold leading-none tabular-nums",
-                      flash && "animate-[flashNum_0.6s_ease-out]"
-                    )}
-                    style={{ fontSize: "clamp(36px, 7vw, 64px)", color: textColor, fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}
-                  >
-                    {ms != null ? ms.toFixed(1) : "–"}
-                  </span>
-                  <span className="text-base font-mono-nums font-medium" style={{ color: textColor }}>m/s</span>
-                </div>
-                {gustMs != null && (
-                  <span className="text-sm font-mono-nums" style={{ color: textColor }}>
-                    ↑ {gustMs.toFixed(1)}
-                  </span>
-                )}
-              </div>
+            <div className={cn(flash && "animate-[flashNum_0.6s_ease-out]")}>
+              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} /></span>
+              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={80} speed={ms} gust={gustMs} /></span>
             </div>
           )}
         </div>
