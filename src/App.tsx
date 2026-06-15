@@ -15,6 +15,8 @@ export default function App() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [gaugeType, setGaugeType] = useState<'compass' | 'flow'>('compass');
+  const cycleGauge = () => setGaugeType(t => t === 'compass' ? 'flow' : 'compass');
   const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -88,6 +90,8 @@ export default function App() {
               initialLoading={initialLoading}
               onRetry={retryStation}
               onClick={(rect) => { setSourceRect(rect); setSelectedId(station.id); }}
+              gaugeType={gaugeType}
+              onGaugeClick={cycleGauge}
             />
           ))}
         </div>

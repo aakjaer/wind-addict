@@ -4,6 +4,7 @@ import { formatRelativeTime } from "@/lib/dmi";
 import type { StationData } from "@/lib/dmi";
 import type { Station } from "@/lib/stations";
 import { WindCompass } from "./WindCompass";
+import { WindFlow } from "./WindFlow";
 import { RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -13,9 +14,11 @@ interface StationCardProps {
   initialLoading: boolean;
   onRetry: (stationId: string) => void;
   onClick: (rect: DOMRect) => void;
+  gaugeType: 'compass' | 'flow';
+  onGaugeClick: () => void;
 }
 
-export function StationCard({ station, data, initialLoading, onRetry, onClick }: StationCardProps) {
+export function StationCard({ station, data, initialLoading, onRetry, onClick, gaugeType, onGaugeClick }: StationCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const ms = data?.speed.value ?? null;
   const dirDeg = data?.dir.value ?? null;
@@ -88,9 +91,21 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick }:
               Retry
             </button>
           ) : (
-            <div className={cn(flash && "animate-[flashNum_0.6s_ease-out]", "transition-transform duration-500 ease-out", showSkeleton ? "scale-25" : "scale-100")}>
-              <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
-              <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+            <div
+              className={cn(flash && "animate-[flashNum_0.6s_ease-out]", "transition-transform duration-500 ease-out", showSkeleton ? "scale-25" : "scale-100")}
+              onClick={(e) => { e.stopPropagation(); if (!showSkeleton) onGaugeClick(); }}
+            >
+              {gaugeType === 'compass' ? (
+                <>
+                  <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                  <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                </>
+              ) : (
+                <>
+                  <span className="hidden sm:block"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                  <span className="sm:hidden"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                </>
+              )}
             </div>
           )}
         </div>
