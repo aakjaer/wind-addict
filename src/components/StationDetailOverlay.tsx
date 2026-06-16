@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WindCompass } from "@/components/WindCompass";
+import { formatRelativeTime } from "@/lib/dmi";
 import {
   ComposedChart,
   Line,
@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { BEAUFORT_SCALE } from "@/lib/beaufort";
 import { fetchStationHistory, type HistoryPoint } from "@/lib/dmi";
-import { beaufortFor, textColorFor } from "@/lib/beaufort";
+import { beaufortFor } from "@/lib/beaufort";
 import type { Station } from "@/lib/stations";
 
 interface Props {
@@ -19,7 +19,9 @@ interface Props {
   currentSpeed: number | null;
   currentGust: number | null;
   currentDir: number | null;
+  lastObserved: string | null;
   sourceRect: DOMRect | null;
+  headerHeight: number;
   onClose: () => void;
 }
 
@@ -31,15 +33,12 @@ function fmtHour(ms: number) {
   });
 }
 
-export function StationDetailOverlay({ station, currentSpeed, currentGust, currentDir, sourceRect, onClose }: Props) {
+export function StationDetailOverlay({ station, currentSpeed, currentGust, currentDir, lastObserved, sourceRect, headerHeight, onClose }: Props) {
   const [history, setHistory] = useState<HistoryPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const bf = beaufortFor(currentSpeed);
-  const headerBg = bf.color;
-  const headerText = textColorFor(bf.color);
-  const headerMuted = headerText;
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => { setReady(true); setExpanded(true); });
@@ -87,16 +86,18 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
 
   const startTop = sourceRect?.top ?? window.innerHeight;
   const startHeight = sourceRect?.height ?? 80;
+  const expandedTop = headerHeight;
 
   return (
     <div
-      className="fixed z-50 flex flex-col overflow-hidden"
+      className="fixed flex flex-col overflow-hidden"
       style={{
+        zIndex: 950,
         left: 0,
         right: 0,
         background: "#09090b",
-        top: expanded ? 0 : startTop,
-        height: expanded ? "100dvh" : startHeight,
+        top: expanded ? expandedTop : startTop,
+        height: expanded ? `calc(100dvh - ${expandedTop}px)` : startHeight,
         transition: !ready
           ? "none"
           : expanded
@@ -105,28 +106,19 @@ export function StationDetailOverlay({ station, currentSpeed, currentGust, curre
       }}
     >
 
-      {/* Header — identical layout to StationCard */}
-      <div className="relative cursor-pointer" onClick={handleClose} role="button" aria-label="Close" style={{ background: headerBg, color: headerText }}>
-        <div className="relative px-6 py-5 flex items-center justify-between gap-4" style={{ minHeight: "clamp(100px, 20vw, 140px)" }}>
-          {/* Left: station name + area */}
-          <div className="flex flex-col justify-center">
-            <div className="font-semi leading-tight" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal" }}>
-              {station.name}
-            </div>
-            <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: headerMuted }}>
-              {station.area}
-            </div>
-          </div>
-
-          {/* Right: compass with speed + gust in center */}
-          <div className="shrink-0">
-            {currentSpeed != null && (
-              <>
-                <span className="hidden sm:block"><WindCompass dirDeg={currentDir} accentColor={headerText} size={130} speed={currentSpeed} gust={currentGust} /></span>
-                <span className="sm:hidden"><WindCompass dirDeg={currentDir} accentColor={headerText} size={100} speed={currentSpeed} gust={currentGust} /></span>
-              </>
-            )}
-          </div>
+      {/* Header */}
+      <div className="relative cursor-pointer px-6 py-5 flex flex-col justify-center shrink-0" onClick={handleClose} role="button" aria-label="Close" style={{ minHeight: "clamp(100px, 20vw, 140px)" }}>
+        <div className="font-semi" style={{ fontSize: "clamp(36px, 7vw, 64px)", fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "normal", lineHeight: 0.9, color: "#fafafa" }}>
+          {station.name}
+        </div>
+        <div className="text-xs font-semibold uppercase" style={{ color: "rgba(250,250,250,0.45)" }}>
+          {station.area}
+          {lastObserved && (
+            <>
+              <span className="px-1">·</span>
+              <span className="font-mono-nums normal-case tracking-normal font-normal">{formatRelativeTime(lastObserved)}</span>
+            </>
+          )}
         </div>
       </div>
 

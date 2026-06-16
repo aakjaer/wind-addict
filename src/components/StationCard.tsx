@@ -12,13 +12,14 @@ interface StationCardProps {
   station: Station;
   data: StationData | null;
   initialLoading: boolean;
+  retrying: boolean;
   onRetry: (stationId: string) => void;
   onClick: (rect: DOMRect) => void;
   gaugeType: 'compass' | 'flow';
   onGaugeClick: () => void;
 }
 
-export function StationCard({ station, data, initialLoading, onRetry, onClick, gaugeType, onGaugeClick }: StationCardProps) {
+export function StationCard({ station, data, initialLoading, retrying, onRetry, onClick, gaugeType, onGaugeClick }: StationCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const ms = data?.speed.value ?? null;
   const dirDeg = data?.dir.value ?? null;
@@ -57,7 +58,8 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick, g
       onClick={hasError ? undefined : () => onClick(cardRef.current!.getBoundingClientRect())}
       onKeyDown={(e) => { if (!hasError && (e.key === "Enter" || e.key === " ")) onClick(cardRef.current!.getBoundingClientRect()); }}
       className={cn(
-        "relative w-full border-b border-black/10 last:border-b-0 transition-all duration-300",
+        "relative w-full border-b last:border-b-0 transition-all duration-300",
+        showSkeleton ? "border-zinc-800" : "border-black/10",
         !hasError && !showSkeleton && "cursor-pointer"
       )}
       style={{ background: bgColor, color: textColor }}
@@ -81,7 +83,7 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick, g
 
         {/* Right: big speed + unit/gust + compass */}
         <div className="flex items-center gap-4 shrink-0">
-          {hasError ? (
+          {hasError && !showSkeleton ? (
             <button
               onClick={(e) => { e.stopPropagation(); onRetry(station.id); }}
               className="flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
@@ -92,24 +94,29 @@ export function StationCard({ station, data, initialLoading, onRetry, onClick, g
             </button>
           ) : (
             <div
-              className={cn(flash && "animate-[flashNum_0.6s_ease-out]", "transition-transform duration-500 ease-out", showSkeleton ? "scale-25" : "scale-100")}
-              onClick={(e) => { e.stopPropagation(); if (!showSkeleton) onGaugeClick(); }}
+              className={cn(flash && "animate-[flashNum_0.6s_ease-out]", showSkeleton && "invisible")}
+              onClick={(e) => { e.stopPropagation(); onGaugeClick(); }}
             >
               {gaugeType === 'compass' ? (
                 <>
-                  <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
-                  <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                  <span className="hidden sm:block"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} /></span>
+                  <span className="sm:hidden"><WindCompass dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} /></span>
                 </>
               ) : (
                 <>
-                  <span className="hidden sm:block"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
-                  <span className="sm:hidden"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} spinning={showSkeleton} /></span>
+                  <span className="hidden sm:block"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={130} speed={ms} gust={gustMs} /></span>
+                  <span className="sm:hidden"><WindFlow dirDeg={dirDeg} accentColor={textColor} size={100} speed={ms} gust={gustMs} /></span>
                 </>
               )}
             </div>
           )}
         </div>
       </div>
+      {retrying && (
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] overflow-hidden">
+          <div className="h-full w-full bg-white animate-indeterminate origin-left" />
+        </div>
+      )}
     </div>
   );
 }
