@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Shuffle } from "lucide-react";
 import { STATIONS } from "@/lib/stations";
 import { fetchStationData, type StationData } from "@/lib/dmi";
 import { StationCard } from "@/components/StationCard";
@@ -73,6 +73,22 @@ export default function App() {
     setRetryingIds((prev) => { const next = new Set(prev); next.delete(stationId); return next; });
   }, []);
 
+  const randomizeData = useCallback(() => {
+    const now = new Date().toISOString();
+    const map: DataMap = {};
+    STATIONS.forEach((s) => {
+      map[s.id] = {
+        stationId: s.id,
+        speed: { value: parseFloat((Math.random() * 20).toFixed(1)), observed: now },
+        dir: { value: Math.floor(Math.random() * 360), observed: now },
+        gust: { value: parseFloat((Math.random() * 25 + 2).toFixed(1)), observed: now },
+        error: null,
+      };
+    });
+    setData(map);
+    setInitialLoading(false);
+  }, []);
+
   const coastal = STATIONS;
 
   const formattedTime = lastUpdated
@@ -99,6 +115,13 @@ export default function App() {
               {refreshing ? "Updating…" : formattedTime}
             </span>
           )}
+          <button
+            onClick={randomizeData}
+            className="text-zinc-600 hover:text-zinc-300 transition-colors"
+            aria-label="Randomize data"
+          >
+            <Shuffle size={13} />
+          </button>
           <button
             onClick={() => fetchAll(true)}
             disabled={refreshing || initialLoading}

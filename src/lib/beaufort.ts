@@ -10,7 +10,7 @@ export const BEAUFORT_SCALE = [
   { max: 5.5,      bf: 3,  label: "Gentle breeze",   color: "#34d399" }, // emerald-400 (teal bridge)
   { max: 6.7,      bf: 4,  label: "Moderate breeze", color: "#4ade80" }, // green-400   (light green)
   { max: 8.0,      bf: 4,  label: "Moderate breeze", color: "#22c55e" }, // green-500   (medium green)
-  { max: 10.8,     bf: 5,  label: "Fresh breeze",    color: "#84cc16" }, // lime-500    (yellow-green)
+  { max: 10.8,     bf: 5,  label: "Fresh breeze",    color: "#16a34a" }, // green-600   (dark green)
   { max: 12.2,     bf: 6,  label: "Strong breeze",   color: "#fde047" }, // yellow-300  (bright yellow)
   { max: 13.9,     bf: 6,  label: "Strong breeze",   color: "#eab308" }, // yellow-500  (deep yellow)
   { max: 15.5,     bf: 7,  label: "Near gale",       color: "#fb923c" }, // orange-400  (light orange)

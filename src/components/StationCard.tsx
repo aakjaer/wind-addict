@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { beaufortFor, textColorFor } from "@/lib/beaufort";
 import { formatRelativeTime } from "@/lib/dmi";
 import type { StationData } from "@/lib/dmi";
@@ -37,18 +37,6 @@ export function StationCard({ station, data, initialLoading, retrying, onRetry, 
   const lastObserved =
     [data?.speed.observed, data?.dir.observed, data?.gust.observed]
       .filter(Boolean).sort().reverse()[0] ?? null;
-
-  // Flash animation on value change
-  const prevMs = useRef<number | null>(null);
-  const [flash, setFlash] = useState(false);
-  useEffect(() => {
-    if (ms != null && prevMs.current != null && ms !== prevMs.current) {
-      setFlash(true);
-      const t = setTimeout(() => setFlash(false), 600);
-      return () => clearTimeout(t);
-    }
-    prevMs.current = ms;
-  }, [ms]);
 
   return (
     <div
@@ -94,7 +82,7 @@ export function StationCard({ station, data, initialLoading, retrying, onRetry, 
             </button>
           ) : (
             <div
-              className={cn(flash && "animate-[flashNum_0.6s_ease-out]", showSkeleton && "invisible")}
+              className={cn(showSkeleton && "invisible")}
               onClick={(e) => { e.stopPropagation(); onGaugeClick(); }}
             >
               {gaugeType === 'compass' ? (
